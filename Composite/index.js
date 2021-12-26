@@ -6,8 +6,18 @@ class SingleValue {
 
 class ManyValues extends Array {}
 
-const sum = (tuple) => {
-  return tuple[0].value + tuple[1].reduce((a, b) => a + b);
+const sum = (containers) => {
+  return containers.reduce((a, b) => {
+    if (b.length) {
+      return a + b.reduce((x, y) => x + y);
+    }
+
+    if (b.value) {
+      return a + b.value;
+    }
+
+    return a + b;
+  }, 0);
 };
 
 module.exports = { SingleValue, ManyValues, sum };
