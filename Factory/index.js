@@ -6,13 +6,10 @@ class Person {
 }
 
 class PersonFactory {
-  constructor() {
-    this.id = -1;
-  }
+  static id = 0;
 
   createPerson(name) {
-    this.id++;
-    return new Person(this.id, name);
+    return new Person(PersonFactory.id++, name);
   }
 }
 
