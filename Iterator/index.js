@@ -1,19 +1,30 @@
 class Node {
-  constructor(...values) {
-    this.values = [];
-    values.forEach((v) => {
-      if (v instanceof Node) {
-        this.values.push(v.values.join(''));
+  constructor(value, left = null, right = null) {
+    this.value = value;
+    this.left = left;
+    this.right = right;
 
-        return;
-      }
+    this.parent = null;
 
-      this.values.push(v);
-    });
+    if (left) left.parent = this;
+    if (right) right.parent = this;
   }
 
-  preorder() {
-    return this.values.sort();
+  *_traverse(current) {
+    yield current;
+
+    if (current.left) {
+      for (let left of this._traverse(current.left)) yield left;
+    }
+
+    if (current.right) {
+      for (let right of this._traverse(current.right)) yield right;
+    }
+  }
+
+  *preorder() {
+    // return all the node *values* (not the nodes)
+    for (let node of this._traverse(this)) yield node.value;
   }
 }
 
